@@ -3,6 +3,12 @@ import reset from "styled-reset";
 
 export const GlobalStyle = createGlobalStyle`
   ${reset}
+  @font-face {
+    font-family: 'LaundryGothic';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/2403-2@1.0/TTLaundryGothicB.woff2') format('woff2');
+    font-weight: 700;
+    font-style: normal;
+}
   a{
     text-decoration: none;
     color: inherit;
@@ -18,7 +24,7 @@ a, ol, ul, li, form, label{
     vertical-align: baseline;
 }
 body{
-    font-family: 'Noto Sans KR', sans-serif;
+    font-family: LaundryGothic, 'Noto Sans KR', sans-serif;
 }
 ol, ul{
     list-style: none;
