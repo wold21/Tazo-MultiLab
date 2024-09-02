@@ -168,7 +168,9 @@ const SpeedChecker = () => {
             const sum = timeArray.reduce((acc, cur) => acc + cur.time, 0);
             setAverage(Math.floor(sum / timeArray.length));
         } else if (timeArray.length === 5) {
-            setIsShow(true);
+            setTimeout(() => {
+                setIsShow(true);
+            }, 500);
         }
     }, [timeArray]);
     return (

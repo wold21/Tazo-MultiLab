@@ -34,27 +34,48 @@ const Help = styled.div`
     border: 2px solid red;
     cursor: pointer;
 `;
-const Logo = styled.div`
+const LogoBox = styled.div`
     width: 60px;
     height: 60px;
+`;
+const Logo = styled.div`
+    width: 100%;
+    height: 100%;
     background-image: url(${Coggi});
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
 `;
-const TitleText = styled.span`
-    font-size: 2rem;
+const TitleText = styled.div`
     color: white;
     user-select: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px 0;
+`;
+const MainText = styled.h1`
+    font-size: 2rem;
+`;
+const SubText = styled.h2`
+    font-size: 1rem;
+    letter-spacing: 2px;
+    color: #696969;
 `;
 const Header = () => {
     return (
         <HeaderBox>
             <Title>
-                <Logo />
-                <TitleText>반응속도 테스트</TitleText>
+                <LogoBox>
+                    <Logo />
+                </LogoBox>
+                <TitleText>
+                    <MainText>반응속도 테스트</MainText>
+                    <SubText>Reaction Time Test</SubText>
+                </TitleText>
             </Title>
-            <Help></Help>
+            {/* <Help></Help> */}
         </HeaderBox>
     );
 };
