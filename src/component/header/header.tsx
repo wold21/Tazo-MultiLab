@@ -24,16 +24,16 @@ const Title = styled.div`
     padding: 0px 20px;
 `;
 
-const Help = styled.div`
-    width: 200px;
-    height: 100%;
-    font-size: 1.2rem;
-    font-weight: bold;
-    color: white;
-    margin-right: 20px;
-    border: 2px solid red;
-    cursor: pointer;
-`;
+// const Help = styled.div`
+//     width: 200px;
+//     height: 100%;
+//     font-size: 1.2rem;
+//     font-weight: bold;
+//     color: white;
+//     margin-right: 20px;
+//     border: 2px solid red;
+//     cursor: pointer;
+// `;
 const LogoBox = styled.div`
     width: 60px;
     height: 60px;
