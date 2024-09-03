@@ -86,7 +86,7 @@ const BlockUI = styled.div`
     width: 100vw;
     height: 100vh;
     z-index: 8;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(0, 0, 0, 0.7);
 `;
 const ResultBox = styled.div`
     position: absolute;
