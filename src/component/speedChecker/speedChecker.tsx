@@ -23,6 +23,10 @@ const Stage = styled.div<{ $bgColor: string }>`
     &:hover {
         scale: 1.01;
     }
+    @media (max-width: 600px) {
+        width: 90vw;
+        height: 45vh;
+    }
 `;
 const Caption = styled.span`
     font-size: 1.5rem;
@@ -31,20 +35,24 @@ const Caption = styled.span`
     color: white;
     z-index: 5;
     user-select: none;
+    @media (max-width: 600px) {
+        font-size: 1.2rem;
+    }
 `;
 const LodingBox = styled.div`
     position: absolute;
     height: 12px;
-    width: 500px;
-    top: 92px;
+    width: 80%;
+    max-width: 500px;
+    top: 100px;
     border: 3px solid #ccc;
     border-radius: 10px;
     transition: width 0.5s ease-in-out;
 `;
-const Loading = styled.div<{ $width: number }>`
+const Loading = styled.div<{ $width: number; $totalSteps: number }>`
     position: absolute;
     height: 100%;
-    width: ${(props) => props.$width}00px;
+    width: ${(props) => (props.$width / props.$totalSteps) * 100}%;
     background-color: #61b3ff;
     border-radius: 10px;
     transition: width 0.4s ease-in-out;
@@ -52,19 +60,32 @@ const Loading = styled.div<{ $width: number }>`
 const History = styled.div`
     position: absolute;
     height: 50px;
-    width: 500px;
-    top: 100px;
+    width: 80%;
+    max-width: 500px;
+    top: 110px;
     display: flex;
     align-items: center;
     justify-content: flex-start;
 `;
-const HistoryItem = styled.span`
-    width: 100px;
+const HistoryItem = styled.span<{ $width: number; $totalSteps: number }>`
+    width: ${(props) => (props.$width / props.$totalSteps) * 100}%;
     text-align: center;
     font-size: 1.2rem;
     font-weight: bold;
     color: white;
     user-select: none;
+    @media (max-width: 600px) {
+        font-size: 0.7rem;
+    }
+`;
+const BlockUI = styled.div`
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 8;
+    background-color: rgba(0, 0, 0, 0.5);
 `;
 const ResultBox = styled.div`
     position: absolute;
@@ -84,6 +105,9 @@ const ResultBox = styled.div`
 const AverageBox = styled.div`
     color: white;
     font-size: 2rem;
+    @media (max-width: 600px) {
+        font-size: 1.5rem;
+    }
 `;
 const HistoryBox = styled.div`
     display: flex;
@@ -92,6 +116,10 @@ const HistoryBox = styled.div`
     gap: 0 30px;
     color: white;
     font-size: 1.5rem;
+    @media (max-width: 600px) {
+        font-size: 0.8rem;
+        gap: 0 10px;
+    }
 `;
 const RetryBox = styled.div`
     width: 50px;
@@ -179,32 +207,37 @@ const SpeedChecker = () => {
             <Stage onClick={handleReady} $bgColor={bgColor}></Stage>
             {timeArray.length != 0 && !ready ? <Caption>{timeArray[timeArray.length - 1].time}ms</Caption> : ""}
             <LodingBox>
-                <Loading $width={timeArray.length} />
+                <Loading $width={timeArray.length} $totalSteps={5} />
             </LodingBox>
             <History>
                 {timeArray.map((time) => (
-                    <HistoryItem key={time.id}>{time.time}ms</HistoryItem>
+                    <HistoryItem key={time.id} $width={1} $totalSteps={5}>
+                        {time.time}ms
+                    </HistoryItem>
                 ))}
             </History>
             <Average time={average} />
             {isShow ? (
-                <ResultBox>
-                    <AverageBox>평균속도 : {average}ms</AverageBox>
-                    <HistoryBox>
-                        {timeArray.map((time) => (
-                            <span key={time.id}>{time.time}ms</span>
-                        ))}
-                    </HistoryBox>
-                    <RetryBox onClick={handleReset}>
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="size-6">
-                            <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99"
-                            />
-                        </svg>
-                    </RetryBox>
-                </ResultBox>
+                <>
+                    <BlockUI />
+                    <ResultBox>
+                        <AverageBox>평균속도 : {average}ms</AverageBox>
+                        <HistoryBox>
+                            {timeArray.map((time) => (
+                                <span key={time.id}>{time.time}ms</span>
+                            ))}
+                        </HistoryBox>
+                        <RetryBox onClick={handleReset}>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="size-6">
+                                <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99"
+                                />
+                            </svg>
+                        </RetryBox>
+                    </ResultBox>
+                </>
             ) : (
                 ""
             )}
