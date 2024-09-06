@@ -25,13 +25,27 @@ a, ol, ul, li, form, label{
 }
 body{
     font-family: LaundryGothic, 'Noto Sans KR', sans-serif;
+    overflow-x: hidden;
+    height: 100vh;
 }
 ol, ul{
     list-style: none;
 }
-button {
-    border: 0;
-    background: transparent;
-    cursor: pointer;
+    ::-webkit-scrollbar {
+    width: 8px;
+  }
+  ::-webkit-scrollbar-thumb {
+    background-color: #343434;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: #222222;
+  }
+    ::-webkit-scrollbar-track {
+    background-color: #222222;
 }
+     #root {
+    display: flex;
+    height: 100vh;
+    flex-direction: column;
+  }
 `;

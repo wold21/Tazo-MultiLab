@@ -1,6 +1,7 @@
 import styled from "styled-components";
+import { GlobalStyle } from "./styles/globalStyle";
 import Header from "./component/header/header";
-import SpeedChecker from "./component/speedChecker/speedChecker";
+import { Outlet } from "react-router-dom";
 
 const Wrapper = styled.div`
     display: flex;
@@ -8,18 +9,20 @@ const Wrapper = styled.div`
     justify-content: center;
     align-items: center;
     width: 100vw;
-    height: 100vh;
     background-color: #222222;
     gap: 20px;
-    padding-top: 70px;
+    padding-top: 100px;
 `;
 
 function App() {
     return (
-        <Wrapper>
-            <Header />
-            <SpeedChecker />
-        </Wrapper>
+        <>
+            <GlobalStyle />
+            <Wrapper>
+                <Header />
+                <Outlet />
+            </Wrapper>
+        </>
     );
 }
 

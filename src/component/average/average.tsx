@@ -5,9 +5,8 @@ interface PropsType {
 }
 
 const AverageBox = styled.div`
-    position: absolute;
     width 200px;
-    height: 100px;
+    height: 25px;
     top: 0px;
     display: flex;
     flex-direction: column;
@@ -25,8 +24,9 @@ const AverageItem = styled.span`
     font-size: 1.5rem;
     font-weight: bold;
     text-align: center;
-    color: white;
+    color: #000000;
     user-select: none;
+    text-shadow: -2px 0px #ffffff, 0px 2px #ffffff, 0px -2px #ffffff, 2px 0px #ffffff;
 `;
 const Average: React.FC<PropsType> = ({ time }) => {
     return (
