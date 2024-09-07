@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 // color palette
-// #1C5D99
+// #1c5d99
 // #639FAB
 // #FFFFFF
 // #222222
@@ -51,11 +51,7 @@ export const Caption = styled.span`
 	color: white;
 	z-index: 5;
 	user-select: none;
-	text-shadow:
-		-3px 0px #000000,
-		0px 3px #000000,
-		0px -3px #000000,
-		3px 0px #000000;
+	text-shadow: -3px 0px #000000, 0px 3px #000000, 0px -3px #000000, 3px 0px #000000;
 	@media (max-width: 600px) {
 		font-size: 1.2rem;
 	}
@@ -91,11 +87,7 @@ export const HistoryItem = styled.span<{ $width: number; $totalSteps: number }>`
 	font-weight: bold;
 	color: #000000;
 	user-select: none;
-	text-shadow:
-		-3px 0px #ffffff,
-		0px 3px #ffffff,
-		0px -3px #ffffff,
-		3px 0px #ffffff;
+	text-shadow: -3px 0px #ffffff, 0px 3px #ffffff, 0px -3px #ffffff, 3px 0px #ffffff;
 	@media (max-width: 600px) {
 		font-size: 0.7rem;
 	}
