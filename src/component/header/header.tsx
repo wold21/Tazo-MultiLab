@@ -1,7 +1,7 @@
-import { HeaderBox, Title, LogoBox, Logo, TitleText, MainText, SubText } from "./headerStyle";
-import styled from "styled-components";
-import { HomeIcon, HamburgerIcon } from "../../assets/icon/Icon";
-import { useNavigate } from "react-router-dom";
+import { HeaderBox, Title, LogoBox, Logo, TitleText, MainText, SubText } from './headerStyle';
+import styled from 'styled-components';
+import { HomeIcon } from '../../assets/icon/icon';
+import { useNavigate } from 'react-router-dom';
 
 const Menu = styled.div`
     width: 200px;
@@ -20,6 +20,10 @@ const IconBox = styled.div`
     justify-content: center;
     align-items: center;
     cursor: pointer;
+
+    svg {
+        transition: all 0.3s;
+    }
     svg:hover {
         stroke-width: 2;
         scale: 1.1;
@@ -29,11 +33,14 @@ const IconBox = styled.div`
 const Header = () => {
     const navigate = useNavigate();
     const handleNavigation = (menu: string) => {
+        if (menu === '/') {
+            window.location.href = '/';
+        }
         navigate(menu);
     };
     return (
         <HeaderBox>
-            <Title onClick={() => handleNavigation("/")}>
+            <Title onClick={() => handleNavigation('/')}>
                 <LogoBox>
                     <Logo />
                 </LogoBox>
@@ -43,12 +50,12 @@ const Header = () => {
                 </TitleText>
             </Title>
             <Menu>
-                <IconBox onClick={() => handleNavigation("/")}>
+                <IconBox onClick={() => handleNavigation('/')}>
                     <HomeIcon />
                 </IconBox>
-                <IconBox>
-                    <HamburgerIcon />
-                </IconBox>
+                {/* <IconBox>
+					<HamburgerIcon />
+				</IconBox> */}
             </Menu>
         </HeaderBox>
     );

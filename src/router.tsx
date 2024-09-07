@@ -1,11 +1,11 @@
-import { createBrowserRouter } from "react-router-dom";
-import App from "./App";
-import SpeedChecker from "./pages/speedChecker/speedChecker";
-import { Home } from "./pages/home/home";
+import { createBrowserRouter } from 'react-router-dom';
+import App from './App';
+import { Speed, Sound, Aim } from './settings/pages';
+import { Home } from './pages/home/home';
 
 const router = createBrowserRouter([
     {
-        path: "/",
+        path: '/',
         element: <App />,
         children: [
             {
@@ -13,8 +13,16 @@ const router = createBrowserRouter([
                 element: <Home />,
             },
             {
-                path: "/speed-checker",
-                element: <SpeedChecker />,
+                path: '/speed-checker',
+                element: <Speed />,
+            },
+            {
+                path: '/hearing-ability',
+                element: <Sound />,
+            },
+            {
+                path: '/aim-ability',
+                element: <Aim />,
             },
         ],
     },
