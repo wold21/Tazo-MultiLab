@@ -49,7 +49,7 @@ export const Home = () => {
                 <Sound
                     onMouseEnter={() => setHoveredItem('sound')}
                     onMouseLeave={() => setHoveredItem(null)}
-                    // onClick={() => navigate('/hearing-ability')}
+                    onClick={() => navigate('/hearing-ability')}
                 >
                     {hoveredItem === 'sound' && (
                         <>
