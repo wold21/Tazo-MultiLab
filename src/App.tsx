@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { GlobalStyle } from './styles/globalStyle';
-import Header from './component/header/header';
+import Header from './components/header/header';
 import { Outlet } from 'react-router-dom';
 
 const Wrapper = styled.div`

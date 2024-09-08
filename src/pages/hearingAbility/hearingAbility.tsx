@@ -2,17 +2,17 @@ import { useEffect, useState } from 'react';
 // import { BlockLayer } from '../../component/blockLayer/blockLayer';
 import { Wrapper, MainGameBox } from './hearingAbilityStyle';
 import * as Tone from 'tone';
+import { Dashboard } from '../../components/hearingAbility/dashboard/dashboard';
 import styled from 'styled-components';
 
 const GaugeContainer = styled.div`
     position: relative;
-    width: 500px;
-    height: 400px;
-    background-color: #fff;
-    border-radius: 400px 400px 0 0;
-    border: 5px solid #ddd;
-    border-bottom: 0;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 45vw;
+    height: 25vw;
+    background: linear-gradient(to bottom right, rgba(34, 34, 34, 0.4) 1%, transparent 30%),
+        linear-gradient(to bottom left, rgba(34, 34, 34, 0.4) 1%, transparent 30%), #ffa500;
+    border-radius: 10px;
+    border: 5px solid #ffffff;
     display: flex;
     justify-content: center;
     align-items: flex-end;
@@ -22,67 +22,44 @@ const Needle = styled.div<{ $rotate: string }>`
     position: absolute;
     width: 0;
     height: 0;
-    top: 50%;
+    bottom: -43px;
     transform: translateY(-50%) rotate(${(props) => props.$rotate}deg);
     transform-origin: bottom;
-    border-left: 8px solid transparent;
-    border-right: 8px solid transparent;
-    border-bottom: 100px solid red;
+    border-left: 3px solid transparent;
+    border-right: 3px solid transparent;
+    border-bottom: 180px solid #222222;
+`;
+const FrequencyBox = styled.div`
+    position: absolute;
+    bottom: 10vh;
+    width: 10vw;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+`;
+const FrequencyText = styled.span`
+    font-size: 1rem;
+    color: #ffffff;
+    text-shadow: -2px 0px #222222, 0px 2px #222222, 0px -2px #222222, 2px 0px #222222;
 `;
 
-const Label = styled.div`
-    position: absolute;
-    top: 50px;
-    font-size: 16px;
-    color: #333;
-`;
-
-const TickMark = styled.div`
-    position: absolute;
-    width: 2px;
-    height: 15px;
-    background-color: #333;
-    top: 0;
-    left: 50%;
-    transform-origin: bottom;
-`;
+interface dashboardProps {
+    minValue: number;
+    maxValue: number;
+    numberOfTicks: number;
+}
 
 export const HearingAbility = () => {
     const [isPlaying, setIsPlaying] = useState(false);
     const [frequency, setFrequency] = useState<number | string>(8);
     const [angle, setAngle] = useState<number | string>(-90);
-
-    const minValue = 8;
-    const maxValue = 22400;
-    const numberOfTicks = 12;
-    const rangePerTick = (maxValue - minValue) / (numberOfTicks - 1);
-    const TickLabels = Array.from({ length: numberOfTicks }).map((_, index) => {
-        const angle = (index / (numberOfTicks - 1)) * 180 - 90; // 180도를 반원에 나누고 -90도로 회전
-        const label = Math.round(minValue + index * rangePerTick); // 각 눈금의 값을 계산
-
-        return (
-            <div
-                key={index}
-                style={{
-                    position: 'absolute',
-                    width: '100%',
-                    height: '500px',
-                    transform: `rotate(${angle}deg)`,
-                    transformOrigin: 'center',
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    top: '0',
-                    left: '0',
-                    // marginTop: '-10px', // 숫자 위치 조정
-                    // marginLeft: '10px', // 숫자 위치 조정
-                }}
-            >
-                <TickMark />
-                <span style={{ position: 'absolute', top: '20px', fontSize: '8px', color: '#333' }}>{label}</span>
-            </div>
-        );
+    const [dashboardProps] = useState<dashboardProps>({
+        minValue: 8,
+        maxValue: 22400,
+        numberOfTicks: 10,
     });
+
     const calculateAngle = (freq: string) => {
         const minInput = 8;
         const maxInput = 22400;
@@ -110,44 +87,44 @@ export const HearingAbility = () => {
             // 주파수 변화량 계산
             const frequencyChangePerSecond = (endFrequency - startFrequency) / duration;
             const interval = setInterval(() => {
-                // 주파수 증가: 일정한 속도로 증가시키기 위해 시간에 따른 계산
-                const currentTime = Tone.now(); // 현재 시간
-                const elapsedTime = currentTime - startTime; // 경과 시간
+                const currentTime = Tone.now();
+                const elapsedTime = currentTime - startTime;
 
                 const newFrequency = startFrequency + frequencyChangePerSecond * elapsedTime;
 
                 if (newFrequency >= endFrequency) {
-                    clearInterval(interval); // 목표 주파수에 도달하면 타이머 종료
+                    synth.triggerRelease();
+                    clearInterval(interval);
+                    setIsPlaying(false);
                 }
 
                 synth.frequency.value = newFrequency;
 
                 const temp = Number(synth.frequency.value).toFixed(0).toString();
+
                 setAngle(calculateAngle(temp));
                 setFrequency(temp);
             }, 50);
 
             setIsPlaying(true);
-
-            setTimeout(() => {
-                synth.triggerRelease();
-                clearInterval(interval);
-                setIsPlaying(false);
-            }, duration * 1000);
         }
     };
 
-    useEffect(() => {
-        // playSineWave();
-    }, []);
     return (
         <Wrapper>
             <MainGameBox>
                 <GaugeContainer>
                     <Needle $rotate={angle.toString()} />
-                    {TickLabels}
-                    <Label>Frequency</Label>
+                    <Dashboard
+                        minValue={dashboardProps.minValue}
+                        maxValue={dashboardProps.maxValue}
+                        numberOfTicks={dashboardProps.numberOfTicks}
+                    />
+                    <FrequencyBox>
+                        <FrequencyText>{frequency} Hz</FrequencyText>
+                    </FrequencyBox>
                 </GaugeContainer>
+                <button onClick={playSineWave}>{isPlaying ? 'Stop' : 'Play'}</button>
             </MainGameBox>
         </Wrapper>
     );
