@@ -11,6 +11,9 @@ export const MainWrapper = styled.main`
     width: 55vw;
     height: calc(100vh - 300px);
     margin-top: 100px;
+    @media (max-width: 600px) {
+        width: 85vw;
+    }
     div {
         transition: all 0.5s ease, filter 0.3s ease;
         cursor: pointer;
@@ -88,6 +91,9 @@ export const SubWrapper = styled.div`
     font-family: 'DungGeunMo', 'Cafe24', 'LaundryGothic', 'Noto Sans KR', sans-serif;
     padding-bottom: 30px;
     user-select: none;
+    @media (max-width: 600px) {
+        width: 85vw;
+    }
 `;
 export const Description = styled.div`
     width: 100%;
@@ -102,11 +108,17 @@ export const Description = styled.div`
     p {
         line-height: 1.5;
     }
+    @media (max-width: 600px) {
+        font-size: 1rem;
+    }
 `;
 export const BoldText = styled.span`
     font-size: 2rem;
     animation: rainbow 1s infinite;
     text-shadow: -4px 0px #000000, 0px 4px #000000, 0px -4px #000000, 4px 0px #000000;
+    @media (max-width: 600px) {
+        font-size: 1.5rem;
+    }
     @keyframes rainbow {
         0% {
             color: #1c5d99;
