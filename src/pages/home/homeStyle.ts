@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import watchImage from '../../assets/images/watch.png';
 import speakerImage from '../../assets/images/speaker.png';
+import aimGunImage from '../../assets/images/aim-gun.png';
 
 export const MainWrapper = styled.main`
     display: grid;
@@ -43,7 +44,7 @@ export const Sound = styled.div`
 `;
 export const Aim = styled.div`
     height: 100%;
-    background-color: green;
+    background: url(${aimGunImage}) center / cover no-repeat;
 `;
 export const Caption = styled.p`
     user-select: none;

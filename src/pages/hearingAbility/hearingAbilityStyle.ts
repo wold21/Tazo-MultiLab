@@ -68,7 +68,6 @@ export const GaugeContainer = styled.div`
         }
     }
 `;
-
 export const ClipingLight = styled.div`
     position: absolute;
     top: 60%;
