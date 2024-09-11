@@ -33,7 +33,7 @@ export const SpeedChecker = () => {
     const [isShow, setIsShow] = useState(false);
 
     const measurementStart = () => {
-        const randomTime = Math.floor(Math.random() * 5) + 1;
+        const randomTime = Math.floor(Math.random() * 5) + 2;
         const timer = setTimeout(() => {
             setStartTime(Date.now());
             setText('Click!');

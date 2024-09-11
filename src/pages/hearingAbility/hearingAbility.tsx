@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from 'react';
 import { BlockLayer } from '../../components/blockLayer/blockLayer';
-import { Wrapper, MainGameBox, GaugeContainer, ClipingLight, FrequencyBox, FrequencyText } from './hearingAbilityStyle';
+import { Wrapper, MainGameBox, GaugeContainer, FrequencyBox, FrequencyText, ClipingLight } from './hearingAbilityStyle';
 import * as Tone from 'tone';
 import { Dashboard } from '../../components/hearingAbility/dashboard/dashboard';
 import { DashboardNeedle } from '../../components/hearingAbility/needle/needle';

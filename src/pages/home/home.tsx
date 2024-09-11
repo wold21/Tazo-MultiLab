@@ -53,11 +53,8 @@ export const Home = () => {
                 >
                     {hoveredItem === 'sound' && (
                         <>
-                            <Caption>🔥</Caption>
-                            <Caption>청력테스트 작업 중</Caption>
-                            <Caption></Caption>
-                            <Caption>빠른 시일 내에 </Caption>
-                            <Caption>오픈 예정입니다.</Caption>
+                            <Caption>청력</Caption>
+                            <Caption>테스트</Caption>
                         </>
                     )}
                 </Sound>
