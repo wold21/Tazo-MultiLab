@@ -6,6 +6,10 @@ export const Wrapper = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
+
+    @media (max-width: 600px) {
+        height: calc(100vh - 70px);
+    }
 `;
 export const MainGameBox = styled.div`
     width: 100vw;
@@ -31,6 +35,17 @@ export const GaugeContainer = styled.div`
     justify-content: center;
     align-items: flex-end;
     animation: flicker 8s infinite ease-in-out;
+    overflow: hidden;
+
+    @media (max-width: 1024px) {
+        width: 90vw;
+        height: 60vw;
+    }
+
+    @media (max-width: 600px) {
+        width: 90vw;
+        height: 60vw;
+    }
 
     @keyframes flicker {
         0% {
@@ -68,44 +83,10 @@ export const GaugeContainer = styled.div`
         }
     }
 `;
-export const ClipingLight = styled.div`
-    position: absolute;
-    top: 60%;
-    left: calc(50% -10px);
-    width: 20px;
-    height: 20px;
-    background-color: red;
-    border-radius: 50%;
-    box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.6), 0 0 20px rgba(255, 0, 0, 0.8);
-    animation: blink 1s infinite;
-    z-index: 1;
 
-    @keyframes blink {
-        0% {
-            background-color: red;
-            box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.6), 0 0 5px rgba(255, 0, 0, 0.8);
-        }
-        25% {
-            ackground-color: red;
-            box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.6), 0 0 5px rgba(255, 0, 0, 0.6);
-        }
-        50% {
-            background-color: red;
-            box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.5), 0 0 5px rgba(200, 0, 0, 0.8);
-        }
-        75% {
-            ackground-color: red;
-            box-shadow: inset 0 0.5px 8px rgba(0, 0, 0, 0.6), 0 0 5px rgba(255, 0, 0, 0.6);
-        }
-        100% {
-            background-color: red;
-            box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.6), 0 0 5px rgba(255, 0, 0, 0.8);
-        }
-    }
-`;
 export const FrequencyBox = styled.div`
     position: absolute;
-    bottom: 10vh;
+    top: 60%;
     width: 10vw;
     height: 50px;
     display: flex;
@@ -118,6 +99,10 @@ export const FrequencyBox = styled.div`
         color: #ffffff;
         text-align: right;
         text-shadow: -2px 0px #222222, 0px 2px #222222, 0px -2px #222222, 2px 0px #222222;
+
+        @media (max-width: 600px) {
+            font-size: 0.7rem;
+        }
     }
     span:nth-child(2) {
         width: 20px;

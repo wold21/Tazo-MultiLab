@@ -1,17 +1,18 @@
 import { useEffect, useState, useRef } from 'react';
 import { BlockLayer } from '../../components/blockLayer/blockLayer';
-import { Wrapper, MainGameBox, GaugeContainer, FrequencyBox, FrequencyText, ClipingLight } from './hearingAbilityStyle';
+import { Wrapper, MainGameBox, GaugeContainer, FrequencyBox, FrequencyText } from './hearingAbilityStyle';
 import * as Tone from 'tone';
 import { Dashboard } from '../../components/hearingAbility/dashboard/dashboard';
-import { DashboardNeedle } from '../../components/hearingAbility/needle/needle';
 import styled from 'styled-components';
 
 const DescriptionBox = styled.div`
     position: absolute;
-    top: 50vw
-    left: 50vw;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     width: 50vw;
-    z-index: 20;
+    height: calc(100vh - 70px);
+    z-index: 6000;
     border-radius: 10px;
     display: flex;
     flex-direction: column;
@@ -19,6 +20,10 @@ const DescriptionBox = styled.div`
     align-items: flex-start;
     gap: 10px 0;
     font-family: 'Cafe24';
+
+    @media (max-width: 600px) {
+        width: 80vw;
+    }
 `;
 const DescriptionText = styled.p`
     font-size: 1.5rem;
@@ -26,6 +31,14 @@ const DescriptionText = styled.p`
     margin-top: 20px;
     user-select: none;
     text-shadow: -4px 0px #222222, 0px 4px #222222, 0px -4px #222222, 4px 0px #222222;
+
+    @media (max-width: 1500px) {
+        font-size: 1rem;
+    }
+    @media (max-width: 600px) {
+        margin-top: 10px;
+        font-size: 0.8rem;
+    }
 `;
 const DescriptionSubText = styled.p`
     font-size: 1rem;
@@ -35,20 +48,27 @@ const DescriptionSubText = styled.p`
     text-shadow: -4px 0px #222222, 0px 4px #222222, 0px -4px #222222, 4px 0px #222222;
     user-select: none;
     line-height: 1.3rem;
+    @media (max-width: 1500px) {
+        font-size: 0.7rem;
+    }
+    @media (max-width: 600px) {
+        font-size: 0.6rem;
+        margin-top: 5px;
+        line-height: 1rem;
+    }
 `;
 
 const StartButtonBox = styled.div`
     width: 100%;
-    height: 100px;
     display: flex;
     justify-content: center;
     align-items: center;
     color: #ffffff;
-    margin-top: 30px;
+    margin-top: 20px;
 `;
 const StartButton = styled.button`
-    width: 100px;
-    height: 50px;
+    width: 10vw;
+    height: 5vh;
     background-color: #ffffff;
     color: #ffffff;
     text-shadow: -2px 0px #222222, 0px 2px #222222, 0px -2px #222222, 2px 0px #222222;
@@ -59,6 +79,11 @@ const StartButton = styled.button`
     transition: scale 0.3s;
     $:hover {
         scale: 1.05;
+    }
+
+    @media (max-width: 600px) {
+        font-size: 0.7rem;
+        width: 20vw;
     }
 `;
 
@@ -149,13 +174,12 @@ export const HearingAbility = () => {
         <Wrapper>
             <MainGameBox>
                 <GaugeContainer>
-                    <DashboardNeedle angle={angle} />
                     <Dashboard
-                        minValue={dashboardProps.minValue}
-                        maxValue={dashboardProps.maxValue}
-                        numberOfTicks={dashboardProps.numberOfTicks}
+                        $minValue={dashboardProps.minValue}
+                        $maxValue={dashboardProps.maxValue}
+                        $numberOfTicks={dashboardProps.numberOfTicks}
+                        $angle={angle}
                     />
-                    <ClipingLight />
                     <FrequencyBox>
                         <FrequencyText>{frequency}</FrequencyText>
                         <FrequencyText>Hz</FrequencyText>
@@ -163,7 +187,7 @@ export const HearingAbility = () => {
                 </GaugeContainer>
                 <button onClick={playSineWave}>{isPlaying ? 'Stop' : 'Play'}</button>
             </MainGameBox>
-            <BlockLayer />
+            {/* <BlockLayer />
             <DescriptionBox>
                 <DescriptionText>1. 테스트 시작하기</DescriptionText>
                 <DescriptionSubText>
@@ -191,7 +215,7 @@ export const HearingAbility = () => {
                 <StartButtonBox>
                     <StartButton>시작하기</StartButton>
                 </StartButtonBox>
-            </DescriptionBox>
+            </DescriptionBox> */}
         </Wrapper>
     );
 };

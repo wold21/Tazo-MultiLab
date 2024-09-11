@@ -1,16 +1,24 @@
-import React from 'react';
 import styled from 'styled-components';
 
 const Needle = styled.div<{ $rotate: string }>`
     position: absolute;
-    width: 0;
-    height: 0;
-    bottom: -43px;
+    bottom: 7%;
     transform: translateY(-50%) rotate(${(props) => props.$rotate}deg);
     transform-origin: bottom;
-    border-left: 3px solid transparent;
-    border-right: 3px solid transparent;
-    border-bottom: 180px solid #222222;
+    border-left: 0.3vh solid transparent;
+    border-right: 0.3vh solid transparent;
+    border-bottom: 9vw solid #222222;
+
+    @media (max-width: 1024px) {
+        bottom: 8%;
+        border-bottom: 20vw solid #222222;
+    }
+
+    @media (max-width: 600px) {
+        border-left: 0.2vh solid transparent;
+        border-right: 0.2vh solid transparent;
+        border-bottom: 20vw solid #222222;
+    }
 `;
 
 export const DashboardNeedle = ({ angle }: any) => {

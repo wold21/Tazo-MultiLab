@@ -110,7 +110,7 @@ export const Description = styled.div`
         line-height: 1.5;
     }
     @media (max-width: 600px) {
-        font-size: 1rem;
+        font-size: 0.8rem;
     }
 `;
 export const BoldText = styled.span`
@@ -118,7 +118,7 @@ export const BoldText = styled.span`
     animation: rainbow 1s infinite;
     text-shadow: -4px 0px #000000, 0px 4px #000000, 0px -4px #000000, 4px 0px #000000;
     @media (max-width: 600px) {
-        font-size: 1.5rem;
+        font-size: 1.2rem;
     }
     @keyframes rainbow {
         0% {
