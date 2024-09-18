@@ -1,6 +1,6 @@
 import { createBrowserRouter } from 'react-router-dom';
 import App from './App';
-import { Speed, Sound, Aim } from './settings/pages';
+import { Speed, Sound, SoundResult, Aim } from './settings/pages';
 import { Home } from './pages/home/home';
 
 const router = createBrowserRouter([
@@ -19,6 +19,10 @@ const router = createBrowserRouter([
             {
                 path: '/hearing-ability',
                 element: <Sound />,
+            },
+            {
+                path: '/hearing-ability/result',
+                element: <SoundResult />,
             },
             {
                 path: '/aim-ability',

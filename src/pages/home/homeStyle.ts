@@ -14,9 +14,14 @@ export const MainWrapper = styled.main`
     margin-top: 100px;
     @media (max-width: 600px) {
         width: 85vw;
+        display: grid;
+        grid-template-columns: repeat(1, 1fr);
+        justify-content: center;
+        align-items: center;
+        gap: 20px 0px;
     }
     div {
-        transition: all 0.5s ease, filter 0.3s ease;
+        width: 100%;
         cursor: pointer;
         border-radius: 10px;
         border: 3px solid #ffffff;
@@ -25,13 +30,14 @@ export const MainWrapper = styled.main`
         justify-content: center;
         align-items: center;
         gap: 10px 0px;
+        filter: brightness(0.5);
+        transition: all 0.5s ease, filter 0.3s ease;
     }
-    div:hover {
+    div:hover,
+    div:focus {
+        filter: brightness(1);
         transform: scale(1.05);
         z-index: 1;
-    }
-    div:not(:hover) {
-        filter: brightness(0.5);
     }
 `;
 export const Speed = styled.div`
@@ -73,6 +79,10 @@ export const DownIconBox = styled.div<{ $isHidden: boolean }>`
         stroke-width: 3;
     }
 
+    @media (max-width: 600px) {
+        width: 3vw;
+        height: 3vw;
+    }
     @keyframes bounce {
         0%, 20%, 50%, 80%, 100% {
             transform: translateY(0);
