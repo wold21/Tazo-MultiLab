@@ -1,43 +1,209 @@
-import { Wrapper } from './hearingAbilityResultStyle';
+import { useEffect, useState, useRef } from 'react';
+import { DownArrowIcon } from '../../assets/icon/icon';
 import { useLocation } from 'react-router-dom';
+import {
+    Wrapper,
+    MainWrapper,
+    DownIconBox,
+    ResultBox,
+    ResultAgeBox,
+    ResultCaption,
+    ResultCaptionSub,
+    ResultAgeCaption,
+    SubWrapper,
+    SubDesctiptioBold,
+    SubDesctiption,
+    SubDesctiptioSub,
+} from './hearingAbilityResultStyle';
 import styled from 'styled-components';
 
-const SubWrapper = styled.div`
+const AgeWrapper = styled.div`
     width: 60vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
     margin-bottom: 50px;
     padding: 20px;
     border-radius: 10px;
     background-color: rgba(255, 255, 255, 0.1);
-    p {
-        line-height: 1.5;
-        color: #ffffff;
-        text-shadow: -3px 0px #000000, 0px 3px #000000, 0px -3px #000000, 3px 0px #000000;
+    color: #ffffff;
+    text-shadow: -3px 0px #000000, 0px 3px #000000, 0px -3px #000000, 3px 0px #000000;
+`;
+const AgeTableBox = styled.div`
+    table {
+        width: 30vw;
+        border-collapse: collapse;
     }
-    @media (max-width: 600px) {
-        width: 80vw;
-        margin-bottom: 150px;
+    tbody {
     }
-`;
-const SubDesctiptioBold = styled.p`
-    margin-top: 20px;
-    font-size: 1.2rem;
-`;
-const SubDesctiptioSub = styled.p`
-    margin-top: 10px;
-    margin-left: 10px;
-    font-size: 1.1rem;
-`;
-const SubDesctiption = styled.p`
-    margin-left: 25px;
-    font-size: 1rem;
+
+    tr {
+        height: 8vh;
+    }
+    td {
+        width: 10vw;
+        text-align: right;
+    }
 `;
 
+const AnimationDuration = 1000;
 export const HearingAbilityResult = () => {
     const location = useLocation();
-    const { frequency } = location.state || { frequency: 8 };
+    const { frequency } = location.state || { frequency: 10000 };
+    const [isResultFrequency, setIsResultFrequency] = useState<number>(0);
+    const [isResultAge, setIsResultAge] = useState<string>('0');
+    const [isHidden, setIsHidden] = useState<boolean>(false);
+    const arrowRef = useRef<HTMLDivElement>(null);
+    const targetRef = useRef<HTMLDivElement>(null);
+
+    const frequencyInterval = () => {
+        const startTime = performance.now();
+
+        const easeInOutQuad = (t: number) => (t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t);
+
+        const updateFrequency = () => {
+            const elapsedTime = performance.now() - startTime; // 시작 시간부터 경과된 시간
+            const progress = Math.min(elapsedTime / AnimationDuration, 1); // 경과된 시간을 길이로 나누어 진행률 계산
+            const easingProgress = easeInOutQuad(progress); // 진행률 값에 따라 가중치를 부여하여 증가량을 조절
+            const resultFrequency = Math.floor(frequency * easingProgress); // 주파수와 가중치를 곱하여 현재 상승중인 주파수 계산
+            setIsResultFrequency(resultFrequency);
+            if (elapsedTime < AnimationDuration) {
+                requestAnimationFrame(updateFrequency);
+            }
+        };
+        requestAnimationFrame(updateFrequency);
+    };
+
+    useEffect(() => {
+        frequencyInterval();
+        if (frequency < 2000) {
+            setIsResultAge('🧒10');
+        } else if (frequency < 4000) {
+            setIsResultAge('20');
+        } else if (frequency < 6000) {
+            setIsResultAge('30');
+        } else if (frequency < 8000) {
+            setIsResultAge('40');
+        } else if (frequency < 10000) {
+            setIsResultAge('50');
+        } else if (frequency < 12000) {
+            setIsResultAge('60');
+        } else if (frequency < 14000) {
+            setIsResultAge('70');
+        } else if (frequency < 16000) {
+            setIsResultAge('80');
+        } else if (frequency < 18000) {
+            setIsResultAge('90');
+        } else {
+            setIsResultAge('100');
+        }
+    }, []);
+
+    useEffect(() => {
+        const handleScroll = () => {
+            if (arrowRef.current && targetRef.current) {
+                const scrollPosition = window.scrollY + window.innerHeight;
+                const targetPosition = targetRef.current.offsetTop;
+                console.log(scrollPosition, targetPosition);
+
+                if (scrollPosition >= targetPosition) {
+                    setIsHidden(true);
+                } else {
+                    setIsHidden(false);
+                }
+            }
+        };
+        window.addEventListener('scroll', handleScroll);
+        handleScroll();
+
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+        };
+    }, []);
 
     return (
         <Wrapper>
+            <MainWrapper>
+                <ResultBox>
+                    <ResultCaption top={'8vh'} left={'7vw'} fs={'5vw'}>
+                        당신의
+                    </ResultCaption>
+                    <ResultCaption top={'29vh'} left={'17vw'} fs={'3vw'}>
+                        결과는...
+                    </ResultCaption>
+                    <ResultCaption top={'14vh'} left={'28vw'} fs={'5vw'}>
+                        <span>{isResultFrequency}</span>Hz<ResultCaptionSub>입니다.</ResultCaptionSub>
+                    </ResultCaption>
+                    <ResultAgeBox>
+                        <ResultAgeCaption top={'15vh'} left={'65vw'} fs={'6.5vw'}>
+                            {isResultAge}대
+                        </ResultAgeCaption>
+                    </ResultAgeBox>
+                </ResultBox>
+            </MainWrapper>
+            <DownIconBox ref={arrowRef} $isHidden={isHidden}>
+                <DownArrowIcon />
+            </DownIconBox>
+            <AgeWrapper>
+                <AgeTableBox ref={targetRef}>
+                    <p>연령대 별 가청 주파수</p>
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td>8,000Hz</td>
+                                <td>보청기 착용 고려</td>
+                            </tr>
+                            <tr>
+                                <td>10,000Hz</td>
+                                <td>50대 이후</td>
+                            </tr>
+                            <tr>
+                                <td>12,000Hz</td>
+                                <td>40대 정도</td>
+                            </tr>
+                            <tr>
+                                <td>14,100Hz</td>
+                                <td>30대 정도</td>
+                            </tr>
+                            <tr>
+                                <td>14,900Hz</td>
+                                <td>20대 후반</td>
+                            </tr>
+                            <tr>
+                                <td>15,800Hz</td>
+                                <td>20대 중반</td>
+                            </tr>
+                            <tr>
+                                <td>16,700Hz</td>
+                                <td>20대 초반</td>
+                            </tr>
+                            <tr>
+                                <td>17,700Hz</td>
+                                <td>10대 후반</td>
+                            </tr>
+                            <tr>
+                                <td>18,800Hz</td>
+                                <td>10대 중반</td>
+                            </tr>
+                            <tr>
+                                <td>19,900Hz</td>
+                                <td>10대 이하</td>
+                            </tr>
+                            <tr>
+                                <td>20,000Hz</td>
+                                <td>동물의 영역</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </AgeTableBox>
+            </AgeWrapper>
+            {/* 당신의 결과는 (나이, 동물, 등) 입니다. */}
+            {/* 그 아래에는 측정결과 : 10000hz */}
+            {/* 결과에 대한 설명 나이대 별 측정 결과 비교*/}
+            {/* 측정 결과가 나이대보다 현저히 낮아 재시도를 해보아도 결과가 같다면 */}
+            {/* 병원 및 기관에서 심도깊은 검사를 받아보시길 바랍니다. */}
             <SubWrapper>
                 <SubDesctiptioBold>청각</SubDesctiptioBold>
                 <SubDesctiption>
