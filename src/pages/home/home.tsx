@@ -68,8 +68,7 @@ export const Home = () => {
                             <Caption>🚫</Caption>
                             <Caption>정확도 테스트 작업 중</Caption>
                             <Caption></Caption>
-                            <Caption>청력테스트 작업 후 </Caption>
-                            <Caption>오픈 예정입니다.</Caption>
+                            <Caption>조금만 기다려주세요! </Caption>
                         </>
                     )}
                 </Aim>
