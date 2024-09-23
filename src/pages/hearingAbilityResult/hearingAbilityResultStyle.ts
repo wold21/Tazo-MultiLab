@@ -2,12 +2,9 @@ import styled from 'styled-components';
 
 export const Wrapper = styled.div`
     width: 100vw;
-    height: calc(100vh - 100px);
     display: flex;
     flex-direction: column;
     align-items: center;
-    overflow-x: hidden;
-    overflow-y: auto;
 
     @media (max-width: 600px) {
         height: calc(100vh - 70px);
@@ -15,7 +12,7 @@ export const Wrapper = styled.div`
 `;
 export const DownIconBox = styled.div<{ $isHidden: boolean }>`
     position:relative;
-    bottom: 20px;
+    bottom: 20vh;
 	width: 1.5vw;
 	height: 1.5vw;
 	display: flex;
@@ -48,11 +45,8 @@ export const DownIconBox = styled.div<{ $isHidden: boolean }>`
 
 export const MainWrapper = styled.div`
     width: 100vw;
-    height: calc(100vh - 100px);
-    margin-top: 12.5vh;
-    margin-bottom: 15vh;
-    border-radius: 10px;
-    justify-content: center;
+    margin-top: 10vh;
+    margin-bottom: 30vh;
     @media (max-width: 600px) {
         height: calc(100vh - 70px);
     }
@@ -131,7 +125,7 @@ export const ResultAgeCaption = styled.div<{ top: string; left: string; fs: stri
     font-size: ${(props) => props.fs};
     color: #ffffff;
     text-shadow: -4px 0px #000000, 0px 4px #000000, 0px -4px #000000, 4px 0px #000000;
-
+    letter-spacing: 0.2em;
     @media (max-width: 600px) {
         font-size: 15vw;
     }
@@ -142,9 +136,8 @@ export const ResultCaptionSub = styled.span`
     vertical-align: baseline;
 `;
 export const SubWrapper = styled.div`
-    width: 60vw;
-    margin-bottom: 50px;
-    padding: 20px;
+    width: 100%;
+    padding: 30px;
     border-radius: 10px;
     background-color: rgba(255, 255, 255, 0.1);
     p {
@@ -159,14 +152,14 @@ export const SubWrapper = styled.div`
 `;
 export const SubDesctiptioBold = styled.p`
     margin-top: 20px;
-    font-size: 1.2rem;
+    font-size: 1.2vw;
 `;
 export const SubDesctiptioSub = styled.p`
-    margin-top: 10px;
+    margin-top: 15px;
     margin-left: 10px;
-    font-size: 1.1rem;
+    font-size: 1vw;
 `;
 export const SubDesctiption = styled.p`
     margin-left: 25px;
-    font-size: 1rem;
+    font-size: 0.8vw;
 `;
