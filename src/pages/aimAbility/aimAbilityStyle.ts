@@ -16,3 +16,67 @@ export const MainGameBox = styled.div`
     justify-content: center;
     gap: 20px 0;
 `;
+export const LodingBox = styled.div`
+    height: 12px;
+    width: 80%;
+    max-width: 500px;
+    // top: 100px;
+    border: 3.5px solid #ffffff;
+    border-radius: 10px;
+    transition: width 0.5s ease-in-out;
+`;
+export const Loading = styled.div<{ $width: number; $totalSteps: number }>`
+    height: 100%;
+    width: ${(props) => (props.$width / props.$totalSteps) * 100}%;
+    background-color: #61b3ff;
+    border-radius: 10px;
+    transition: width 0.4s ease-in-out;
+`;
+export const History = styled.div`
+    height: 25px;
+    width: 80%;
+    max-width: 500px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+`;
+export const HistoryItem = styled.span<{ $width: number; $totalSteps: number }>`
+    width: ${(props) => (props.$width / props.$totalSteps) * 100}%;
+    text-align: center;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #000000;
+    user-select: none;
+    text-shadow: -3px 0px #ffffff, 0px 3px #ffffff, 0px -3px #ffffff, 3px 0px #ffffff;
+    @media (max-width: 600px) {
+        font-size: 0.7rem;
+    }
+`;
+export const Stage = styled.div`
+    width: 50vw;
+    height: 65vh;
+    position: relative;
+    border-radius: 20px;
+    border: 4px solid white;
+    box-shadow: 0 0 10px 1px rgba(255, 255, 255, 0.5);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 20px 0;
+    @media (max-width: 600px) {
+        width: 90vw;
+        height: 45vh;
+    }
+`;
+export const Caption = styled.span`
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-align: center;
+    color: white;
+    z-index: 5;
+    user-select: none;
+    text-shadow: -3px 0px #000000, 0px 3px #000000, 0px -3px #000000, 3px 0px #000000;
+    @media (max-width: 600px) {
+        font-size: 1.2rem;
+    }
+`;

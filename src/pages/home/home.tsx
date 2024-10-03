@@ -61,14 +61,12 @@ export const Home = () => {
                 <Aim
                     onMouseEnter={() => setHoveredItem('aim')}
                     onMouseLeave={() => setHoveredItem(null)}
-                    // onClick={() => navigate('/aim-ability')}
+                    onClick={() => navigate('/aim-ability')}
                 >
                     {hoveredItem === 'aim' && (
                         <>
-                            <Caption>🚫</Caption>
-                            <Caption>정확도 테스트 작업 중</Caption>
-                            <Caption></Caption>
-                            <Caption>조금만 기다려주세요! </Caption>
+                            <Caption>정확도</Caption>
+                            <Caption>테스트</Caption>
                         </>
                     )}
                 </Aim>
