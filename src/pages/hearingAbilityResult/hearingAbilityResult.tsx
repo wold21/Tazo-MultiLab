@@ -10,81 +10,15 @@ import {
     ResultCaption,
     ResultCaptionSub,
     ResultAgeCaption,
+    RepeatIconBox,
+    GuideBox,
+    AgeWrapper,
+    AgeTableBox,
     SubWrapper,
     SubDesctiptioBold,
     SubDesctiption,
     SubDesctiptioSub,
 } from './hearingAbilityResultStyle';
-import styled from 'styled-components';
-
-const RepeatIconBox = styled.div`
-    position: absolute;
-    right: 2vw;
-    width: 15vw;
-    font-size: 1.5vw;
-    color: #ffffff;
-    cursor: pointer;
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    gap: 0px 10px;
-
-    svg {
-        width: 2.8vw;
-        height: 2.8vw;
-        stroke-width: 2.5;
-        scale: 1;
-        transition: all 0.3s;
-    }
-    &:hover {
-        svg {
-            scale: 1.05;
-            rotate: 180deg;
-        }
-    }
-`;
-
-const GuideBox = styled.div`
-    width: 80vw;
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    grid-auto-flow: row;
-    gap: 20px 20px;
-    margin-bottom: 10vh;
-`;
-const AgeWrapper = styled.div`
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    border-radius: 10px;
-    background-color: rgba(255, 255, 255, 0.1);
-    color: #ffffff;
-    text-shadow: -3px 0px #000000, 0px 3px #000000, 0px -3px #000000, 3px 0px #000000;
-`;
-const AgeTableBox = styled.div`
-    padding: 30px;
-    p {
-        font-size: 1.5vw;
-        margin-bottom: 30px;
-        text-align: center;
-    }
-    table {
-        border-collapse: collapse;
-    }
-    tbody {
-    }
-
-    tr {
-        height: 35px;
-    }
-    td {
-        width: 15vw;
-        font-size: 1vw;
-        text-align: center;
-    }
-`;
 
 const AnimationDuration = 1000;
 const EmoticonList = ['🌱', '🍄', '🐳', '🍭', '🫵', '✨', '🔥', '🥗'];
@@ -118,30 +52,32 @@ export const HearingAbilityResult = () => {
 
     useEffect(() => {
         frequencyInterval();
-        let age = '0';
-        if (frequency < 2000) {
-            age = '10';
-        } else if (frequency < 4000) {
-            age = '20';
-        } else if (frequency < 6000) {
-            age = '30';
-        } else if (frequency < 8000) {
-            age = '40';
+        let age;
+        if (frequency <= 8000) {
+            age = '보청기고려';
         } else if (frequency < 10000) {
-            age = '50';
+            age = '50대이후';
         } else if (frequency < 12000) {
-            age = '60';
-        } else if (frequency < 14000) {
-            age = '70';
-        } else if (frequency < 16000) {
-            age = '80';
-        } else if (frequency < 18000) {
-            age = '90';
+            age = '40대';
+        } else if (frequency < 14100) {
+            age = '30대';
+        } else if (frequency < 14900) {
+            age = '20대후반';
+        } else if (frequency < 15800) {
+            age = '20대중반';
+        } else if (frequency < 16700) {
+            age = '20대초반';
+        } else if (frequency < 17700) {
+            age = '10대후반';
+        } else if (frequency < 18800) {
+            age = '10대중반';
+        } else if (frequency < 19900) {
+            age = '10대이하';
         } else {
-            age = '100';
+            age = '동물의영역';
         }
         let randomEmoticon = Math.floor(Math.random() * EmoticonList.length);
-        setIsResultAge(`${age}대${EmoticonList[randomEmoticon]}`);
+        setIsResultAge(`${age}${EmoticonList[randomEmoticon]}`);
     }, []);
 
     useEffect(() => {
@@ -177,14 +113,14 @@ export const HearingAbilityResult = () => {
                     <ResultCaption top={'8vh'} left={'7vw'} fs={'5vw'}>
                         당신의
                     </ResultCaption>
-                    <ResultCaption top={'29vh'} left={'17vw'} fs={'3vw'}>
+                    <ResultCaption top={'29vh'} left={'15vw'} fs={'3vw'}>
                         결과는...
                     </ResultCaption>
-                    <ResultCaption top={'14vh'} left={'28vw'} fs={'5vw'}>
+                    <ResultCaption top={'14vh'} left={'25vw'} fs={'5vw'}>
                         <span>{isResultFrequency}</span>Hz<ResultCaptionSub>입니다.</ResultCaptionSub>
                     </ResultCaption>
                     <ResultAgeBox>
-                        <ResultAgeCaption top={'15vh'} left={'65vw'} fs={'6.5vw'}>
+                        <ResultAgeCaption top={'15vh'} left={'60vw'} fs={'6vw'}>
                             {isResultAge}
                         </ResultAgeCaption>
                     </ResultAgeBox>

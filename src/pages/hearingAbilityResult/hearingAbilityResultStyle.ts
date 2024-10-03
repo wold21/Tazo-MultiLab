@@ -125,7 +125,7 @@ export const ResultAgeCaption = styled.div<{ top: string; left: string; fs: stri
     font-size: ${(props) => props.fs};
     color: #ffffff;
     text-shadow: -4px 0px #000000, 0px 4px #000000, 0px -4px #000000, 4px 0px #000000;
-    letter-spacing: 0.2em;
+    // letter-spacing: 0.2em;
     @media (max-width: 600px) {
         font-size: 15vw;
     }
@@ -135,6 +135,76 @@ export const ResultCaptionSub = styled.span`
     font-size: 3vw;
     vertical-align: baseline;
 `;
+
+export const RepeatIconBox = styled.div`
+    position: absolute;
+    right: 2vw;
+    width: 15vw;
+    font-size: 1.5vw;
+    color: #ffffff;
+    cursor: pointer;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 0px 10px;
+
+    svg {
+        width: 2.8vw;
+        height: 2.8vw;
+        stroke-width: 2.5;
+        scale: 1;
+        transition: all 0.3s;
+    }
+    &:hover {
+        svg {
+            scale: 1.05;
+            rotate: 180deg;
+        }
+    }
+`;
+
+export const GuideBox = styled.div`
+    width: 80vw;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-auto-flow: row;
+    gap: 20px 20px;
+    margin-bottom: 10vh;
+`;
+export const AgeWrapper = styled.div`
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+    text-shadow: -3px 0px #000000, 0px 3px #000000, 0px -3px #000000, 3px 0px #000000;
+`;
+export const AgeTableBox = styled.div`
+    padding: 30px;
+    p {
+        font-size: 1.5vw;
+        margin-bottom: 30px;
+        text-align: center;
+    }
+    table {
+        border-collapse: collapse;
+    }
+    tbody {
+    }
+
+    tr {
+        height: 35px;
+    }
+    td {
+        width: 15vw;
+        font-size: 1vw;
+        text-align: center;
+    }
+`;
+
 export const SubWrapper = styled.div`
     width: 100%;
     padding: 30px;
