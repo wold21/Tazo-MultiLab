@@ -1,47 +1,23 @@
-// import { useEffect, useState } from 'react';
-// import { BlockLayer } from '../../component/blockLayer/blockLayer';
-import { Wrapper, MainGameBox, LodingBox, Loading, History, HistoryItem, Stage, Caption } from './aimAbilityStyle';
-import { useState, useEffect } from 'react';
-import styled from 'styled-components';
-
-const GameContainer = styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-`;
-
-const Circle = styled.div<{ left: number; top: number }>`
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    background-color: red;
-    position: absolute;
-    cursor: pointer;
-    left: ${(props) => props.left}%;
-    top: ${(props) => props.top}%;
-`;
-
-const StartButton = styled.button`
-    padding: 10px 20px;
-    font-size: 16px;
-`;
-
-const Timer = styled.div`
-    margin-top: 20px;
-    font-size: 24px;
-`;
-
-const ProgressBackground = styled.div<{ $bgColor: string; $width: number; $display: number }>`
-    width: ${(props) => props.$width}%;
-    height: 100%;
-    background-color: ${(props) => props.$bgColor};
-    border-radius: ${(props) => (props.$width === 100 ? '15px' : '0 15px 15px 0')};
-    position: absolute;
-    opacity: ${(props) => props.$display};
-    transition: width 0.1s linear, border-radius 0.2s ease-in-out, opacity 0.5s ease-in-out;
-    right: 0;
-    top: 0;
-`;
+import { useState, useEffect, useRef } from 'react';
+import { BlockLayer } from '../../components/blockLayer/blockLayer';
+import { RepeatIcon } from '../../assets/icon/icon';
+import {
+    Wrapper,
+    MainGameBox,
+    LodingBox,
+    Loading,
+    History,
+    HistoryItem,
+    Stage,
+    Caption,
+    Circle,
+    ProgressBackground,
+    ResultBox,
+    HistoryBox,
+    AverageBox,
+    RetryBox,
+} from './aimAbilityStyle';
+import { useTimer } from './hook/useTimer';
 
 interface CircleProps {
     id: number;
@@ -49,78 +25,114 @@ interface CircleProps {
     top: number;
 }
 
-const TotalSteps = 3;
+interface CircleInfoPropsType {
+    size: number;
+    count: number;
+    offset: number;
+}
+
+interface GamePropsType {
+    totalStep: number;
+    duration: number;
+    intervalTime: number;
+    circleInfo: CircleInfoPropsType;
+}
+
 export const AimAbility = () => {
+    const stageRef = useRef<HTMLDivElement | null>(null);
     const [bgColor, setBgColor] = useState('#1C5D99');
     const [progressWidth, setProgressWidth] = useState(100);
     const [progressOpacity, setProgressOpacity] = useState(1);
-    const [isPlaying, setIsPlaying] = useState(false);
-    // const [timer, setTimer] = useState(10);
-    // const [circles, setCircles] = useState<CircleProps[]>([]);
-    // const [clickedCircles, setClickedCircles] = useState<number[]>([]);
+    const [isStart, setIsStart] = useState(false);
+    const [isResultShow, setIsResultShow] = useState(false);
+    const [circles, setCircles] = useState<CircleProps[]>([]);
+    const [timeArray, setTimeArray] = useState<{ time: number }[]>([]);
+    const [averageTime, setAverageTime] = useState<number>(0);
+    const [gameProps, setGameProps] = useState<GamePropsType>({
+        totalStep: 3,
+        duration: 10000,
+        intervalTime: 100,
+        circleInfo: { count: 10, size: 50, offset: 10 },
+    });
+    const { startTimer, stopTimer, remainingTime } = useTimer({
+        duration: gameProps.duration,
+        onComplete: () => {
+            setTimeArray((prev) => [...prev, { time: gameProps.duration }]);
+            endGameRound();
+        },
+        onTick: (time: number) => {
+            const width = Math.floor(100 - (time / gameProps.duration) * 100);
+            if (width <= 0) return;
+            setProgressWidth(width);
+        },
+    });
 
-    // useEffect(() => {
-    //     let countdown: number;
+    const endGameRound = () => {
+        setCircles([]);
+        setBgColor('#1C5D99');
+        setIsStart(false);
+        setProgressWidth(100);
+        setProgressOpacity(1);
+        setGameProps((prev) => {
+            const isLastRound = timeArray.length + 1 === prev.totalStep;
+            return {
+                ...prev,
+                circleInfo: {
+                    ...prev.circleInfo,
+                    size: isLastRound ? 50 : prev.circleInfo.size - prev.circleInfo.offset,
+                },
+            };
+        });
 
-    //     if (isGameActive && timer > 0) {
-    //         countdown = setTimeout(() => {
-    //             setTimer((prev) => prev - 1);
-    //         }, 1000);
-    //     }
+        if (timeArray.length + 1 === gameProps.totalStep) {
+            setIsResultShow(true);
+            const sum = timeArray.reduce((acc, cur) => acc + cur.time, 0);
+            setAverageTime(Math.floor(sum / timeArray.length));
+        }
+    };
 
-    //     if (timer === 0) {
-    //         setIsGameActive(false);
-    //     }
+    const generateCircles = () => {
+        if (!stageRef.current) return;
+        const stageWidth = stageRef.current.offsetWidth;
+        const stageHeight = stageRef.current.offsetHeight;
+        for (let i = 0; i < gameProps.circleInfo.count; i++) {
+            const x = Math.floor(
+                Math.random() * (stageWidth - gameProps.circleInfo.size - gameProps.circleInfo.offset),
+            );
+            const y = Math.floor(
+                Math.random() * (stageHeight - gameProps.circleInfo.size - gameProps.circleInfo.offset),
+            );
+            setCircles((prev) => [...prev, { id: i, left: x, top: y }]);
+        }
+    };
 
-    //     return () => clearTimeout(countdown);
-    // }, [isGameActive, timer]);
+    const handleCircleClick = (id: number) => {
+        setCircles((prev) => prev.filter((circle) => circle.id !== id));
+        if (circles.length === 1) {
+            setTimeArray((prev) => [...prev, { time: remainingTime }]);
+            stopTimer();
+            endGameRound();
+        }
+    };
 
-    // const handleStart = () => {
-    //     setTimer(10);
-    //     setIsGameActive(true);
-    //     setClickedCircles([]);
-    //     generateCircles();
-    // };
-
-    // const generateCircles = () => {
-    //     const newCircles = Array.from({ length: 8 }, (_, i) => ({
-    //         id: i,
-    //         left: Math.random() * 80,
-    //         top: Math.random() * 80,
-    //     }));
-    //     setCircles(newCircles);
-    // };
-
-    // const handleCircleClick = (id: number) => {
-    //     if (!clickedCircles.includes(id)) {
-    //         setClickedCircles((prev) => [...prev, id]);
-    //     }
-
-    //     if (clickedCircles.length + 1 === circles.length) {
-    //         setIsGameActive(false);
-    //     }
-    // };
+    const handleRetry = () => {
+        setTimeArray([]);
+        setIsResultShow(false);
+    };
 
     const handlePlay = () => {
-        if (isPlaying) return;
-        setIsPlaying(true);
-        const duration = 10000;
-        const intervalTime = 100;
-        const interval = setInterval(() => {
-            setProgressWidth((prevWidth) => {
-                const newWidth = prevWidth - 100 / (duration / intervalTime);
-                if (newWidth <= 0) {
-                    clearInterval(interval);
-                    return 0;
-                }
-                return newWidth;
-            });
-        }, intervalTime);
+        if (isStart) return;
+        setIsStart(true);
+        generateCircles();
+        startTimer();
     };
 
     useEffect(() => {
         if (progressWidth < 5) {
             setProgressOpacity(0);
+        }
+        if (progressWidth < 25) {
+            setBgColor('tomato');
         }
     }, [progressWidth]);
 
@@ -128,46 +140,55 @@ export const AimAbility = () => {
         <Wrapper>
             <MainGameBox>
                 <LodingBox>
-                    <Loading $width={1} $totalSteps={TotalSteps} />
+                    <Loading $width={timeArray.length} $totalSteps={gameProps.totalStep} />
                 </LodingBox>
                 <History>
-                    {/* {timeArray.map((time) => (
-                        <HistoryItem key={time.id} $width={1} $totalSteps={5}>
+                    {timeArray.map((time, index) => (
+                        <HistoryItem key={index} $width={1} $totalSteps={gameProps.totalStep}>
                             {time.time}ms
                         </HistoryItem>
-                    ))} */}
-                    <HistoryItem key={1} $width={1} $totalSteps={TotalSteps}>
-                        {'5/10'}
-                    </HistoryItem>
+                    ))}
                 </History>
 
-                <Stage onClick={handlePlay}>
+                <Stage onClick={handlePlay} ref={stageRef}>
                     <ProgressBackground $bgColor={bgColor} $width={progressWidth} $display={progressOpacity} />
-                    {!isPlaying ? (
-                        <Caption>클릭하면 시작합니다.</Caption>
+                    {!isStart ? (
+                        <>
+                            <Caption>클릭하면 시작합니다.</Caption>
+                            <Caption>Round {timeArray.length + 1}</Caption>
+                        </>
                     ) : (
                         <>
-                            <Circle
-                                key={1}
-                                left={10}
-                                top={20}
-                                // onClick={() => handleCircleClick(circle.id)}
-                            />
+                            {circles.map((circle) => (
+                                <Circle
+                                    key={circle.id}
+                                    $left={circle.left}
+                                    $top={circle.top}
+                                    $size={gameProps.circleInfo.size}
+                                    onClick={() => handleCircleClick(circle.id)}
+                                />
+                            ))}
                         </>
                     )}
                 </Stage>
-                {/* 
-                    <Timer>Time Left: {timer}s</Timer>
-                    {isGameActive &&
-                        circles.map((circle) => (
-                            <Circle
-                                key={circle.id}
-                                left={circle.left}
-                                top={circle.top}
-                                onClick={() => handleCircleClick(circle.id)}
-                            />
-                        ))}
-                */}
+                {isResultShow ? (
+                    <>
+                        <BlockLayer />
+                        <ResultBox>
+                            <AverageBox>평균속도 : {averageTime}ms</AverageBox>
+                            <HistoryBox>
+                                {timeArray.map((time, index) => (
+                                    <span key={index}>{time.time}ms</span>
+                                ))}
+                            </HistoryBox>
+                            <RetryBox onClick={handleRetry}>
+                                <RepeatIcon />
+                            </RetryBox>
+                        </ResultBox>
+                    </>
+                ) : (
+                    ''
+                )}
             </MainGameBox>
         </Wrapper>
     );

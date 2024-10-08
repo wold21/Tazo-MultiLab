@@ -111,7 +111,7 @@ export const ResultBox = styled.div`
     width: 100vw;
     height: 100vh;
     backdrop-filter: blur(20px);
-    z-index: 10;
+    z-index: 5000;
     display: flex;
     flex-direction: column;
     align-items: center;
